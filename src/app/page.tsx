@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-
+import Link from "next/link";
+import Button from "@/app/components/components"
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -17,8 +18,18 @@ export default function Home() {
           <li>
             Get started by editing <code>src/app/page.tsx</code>.
           </li>
-          <li>hello world.</li>
+          <li>
+            <Link href={'/login'}> Login Page</Link>
+          </li>
+          <li>
+            <Link href={'/posts'}> Posts Page</Link>
+          </li>
+          <li>
+            <Link href={'/about'}> About Page</Link>
+          </li>
         </ol>
+        <Button />
+
 
         <div className={styles.ctas}>
           <a
