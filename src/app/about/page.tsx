@@ -29,45 +29,29 @@
 //         },
 //     }
 // }
-import { GetStaticProps, GetStaticPropsContext } from "next";
 import * as React from "react";
-export interface About {
-    id: number;
-    title: string;
-  }
-  
-export interface AboutListProps {
-  abouts: []; // Định dạng lại mảng để tránh lỗi TypeScript
+import styles from '@/app/about/about.module.css'
+ interface About {
+  id: number;
+  title: string;
 }
 
+export default async function AboutList() {
+  const response = await fetch("https://api.vercel.app/blog", {
+    cache: "no-store", // 👈 Không cache để lấy dữ liệu mới nhất mỗi lần truy cập
+  });
 
-export default function AboutList(props: AboutListProps) {
-  return( 
+  const data: About[] = await response.json();
+
+  return (
     <div>
-        <h1>About List Page</h1>
-        <ul>
-            {abouts.map((about)=> {
-                <li key={about.id}>{about.title}</li>
-            })}
-        </ul>
+      <h1>About List Page</h1>
+      <ul>
+      {data.map((post) => (
+          <li className={styles.list} key={post.id}>{post.title}</li>
+        ))}
+      </ul>
     </div>
-    );
+  );
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const StaticProps: GetStaticProps<AboutListProps> = async (context: GetStaticPropsContext) => {
-  // server-side
-  // build-time
-  console.log("static props");
-
-  const response = await fetch("https://api.vercel.app/blog");
-  const data = await response.json();
-
-  return {
-    props: {
-      abouts: data.data || [],// Đảm bảo dữ liệu không bị lỗi
-    },
-  };
-};
-
 
